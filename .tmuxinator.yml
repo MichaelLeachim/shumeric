@@ -1,0 +1,12 @@
+name: shumeric
+root: .
+startup_window: npm
+windows:
+  - npm:
+      panes:
+        - chromium:
+            chromium --remote-debugging-port=9222 https://localhost:3000
+        - shell:
+            ls
+        - worker:
+            npm start
