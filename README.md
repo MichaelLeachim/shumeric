@@ -3,7 +3,7 @@ This project set up is a courtesy of  [Create React App](https://github.com/face
 ## The reasons behind this project
 
 The point of this project is to set up/remember my old knowledge of JS/ES6/React/Redux/Redux+Saga/TypeScript
-and lots of other JS ecosystem details that I might miss while working primarily with back end or ClojureScript 
+and lots of other JS ecosystem details that I have missed while working primarily with back end or ClojureScript 
 ecosystem. 
 
 ## Status (Progress) log
