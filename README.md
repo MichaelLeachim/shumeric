@@ -8,6 +8,15 @@ ecosystem.
 
 ## Status (Progress) log
 
+### [2018-10-24] [22:18]
+
+Even more boilerplate. 
+
+I should write my own Redux. 
+
+And if I do, I should base it on:
+https://github.com/Day8/re-frame
+
 ### [2018-10-24] [22:06]
 
 A lot of boilerplate if we compare it to `Reagent+ReFrame`.
@@ -22,10 +31,11 @@ The idea is to avoid complex access/scope patterns.
 The components should either:
 * Be *embedded*   into the app (and thus, have full access to actions/reducers/effects/state/views)
 * Be *completely* separate     (have no access to actions/reducers/state). and communicate through some other means
-* Be *stateless* and *context less* in the general sense, and thus, be reusable.  
-  E.g. not depend on app state. (For example, some third party widgets do not depend on app state, but provide 
-  nice building blocks for the app)
+* Be *stateless* and *context less* in the general sense, and thus, be reusable.
+  E.g. not depend on app state for their internal work. (For example, some third party widgets do not depend on app state, but provide 
+  nice building blocks for the app). 
   
+    
 The common way is to delimit them like this: Web Page > App > Widgets
 
 Where web pages do not share their state, but widgets withing app share 

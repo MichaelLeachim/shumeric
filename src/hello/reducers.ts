@@ -9,11 +9,6 @@ import { EnthusiasmAction } from './actions';
 import { DECREMENT_ENTHUSIASM, INCREMENT_ENTHUSIASM, } from './const';
 import { IStoreState } from './headers';
 
-
-
-
-
-
 export function enthusiasm(state: IStoreState, action: EnthusiasmAction): IStoreState {
   switch (action.type) {
     case INCREMENT_ENTHUSIASM:
