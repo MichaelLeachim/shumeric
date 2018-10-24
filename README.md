@@ -8,6 +8,57 @@ ecosystem.
 
 ## Status (Progress) log
 
+### [2018-10-25] [01:28] Okay, experience of JS/TS after ClojureScript. TLDR: I don't like it
+
+Okay, I am, basically, lost in how quirky dynamic and, arbitrary,  everything is. 
+
+* Tutorials of `2018` are *out of date*, because `JS` ecosystem moves fast and breaks things. (I guess the infrastructure doesn't use semver. 
+  Breaking changes are a norm here). I guess, I need to look not for the year, but for the month of the tutorial. 
+  Everything that is older than three months should be considered obsolete. 
+* The TS linter is strange:
+  * It doesn't advise on naming
+  * On the other hand, it **requires** the imports to be in alphabetic order.(Wait, what? why? )
+* **Typing**. Lots and lots of typing. I have three(!) files for an app smaller than hello world, where I need to register, load, inject, wrap
+  stuff. The simplest things are getting lost in bureaucracy. Why for God's sake there is a **string** type dispatcher and a separate 
+  action registration file? Is this some form of desire to look like a quasi Elm? 
+* There is *a package* for everything. Literally, everything. Merging two hash maps is a package. 
+* There is still no good story for immutability (I had this problem in ~2015). 
+  Basically, you have a `Map` and a `List` from `Immutable.js` with their particular implementation of access. 
+  And then you go. You can't juxtapose them with functional library or with an interface declaration without tons of boilerplate and
+  an additional egghead to decipher types. All is because of the lack of syntax consistency. 
+* I am yet to discover the asynchronous story of Redux. Which is the  most tedious part even on Reagent/Reframe 
+  side. I guess, the Redux-Saga  does smth. similar to the effect system of Reframe. 
+* JSX (basically, a vendor made  macro) is ugly from any point of view. 
+* No good story for Emacs. (Auto complete and jump to definition works only in TS). 
+  The other editors might have it better, though. 
+* The sheer popularity of this thing is crazy. A simple [project template](https://github.com/facebook/create-react-app) has sixty
+  thousand of stars. That means, it dwarfs anything non-mainstream. So, on the good side, finding a job within this stack shouldn't 
+  be hard. 
+  
+### [2018-10-25] [00:15] On issue of type safety and immutability
+
+Apparently, the problem of combining `immutable.js` and type declarations
+is still not solved. (I used to have it in 2015, almost four years ago )
+
+Basically, type systems bind to the syntax of JS. Library cannot hook up 
+to the  syntax, so it doesn't work. The only way to overcome it is to make
+a facade over an immutable map.
+
+Right now, after reading:
+
+* https://coderwall.com/p/vxk_tg/using-immutable-js-in-typescript
+* https://blog.mayflower.de/6630-typescript-redux-immutablejs.html
+* https://stackoverflow.com/questions/52824312/how-to-use-immutablejs-map-with-typescript
+* https://blog.mgechev.com/2018/01/18/react-typescript-redux-immutable/ (best one!)
+
+#### I've thought about it more. And here is a compromise that it seems that I come up with
+
+Use spread operator for `interface(struct?) cloning`, and use `Immutable.js` for updating 
+collections. 
+
+I should work/think on it a little bit more
+
+
 ### [2018-10-24] [22:18]
 
 Even more boilerplate. 

@@ -5,16 +5,15 @@
  * @ All rights reserved.                                                               @
  * @@@@@@ At 2018-10-24 18:17 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@ */
 
-import { EnthusiasmAction } from './actions';
-import { DECREMENT_ENTHUSIASM, INCREMENT_ENTHUSIASM, } from './const';
-import { IStoreState } from './headers';
-
-export function enthusiasm(state: IStoreState, action: EnthusiasmAction): IStoreState {
+import { IAppState } from './store';
+import { ActionType, TypeOfAction } from './actions';
+import { eventUpdateBeforeText, eventSetAlertOnUpdate } from './events';
+export function reducer(state: IAppState, action: ActionType): IAppState {
   switch (action.type) {
-    case INCREMENT_ENTHUSIASM:
-      return { ...state, enthusiasmLevel: state.enthusiasmLevel + 1 };
-    case DECREMENT_ENTHUSIASM:
-      return { ...state, enthusiasmLevel: Math.max(1, state.enthusiasmLevel - 1) };
+    case TypeOfAction.UPDATE_BEFORE_TEXT:
+      return eventUpdateBeforeText(state, action)
+    case TypeOfAction.ALERT_ON_COMPLETE:
+      return eventSetAlertOnUpdate(state, action)
   }
   return state;
 }

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@types/react-redux": "^6.0.9",
+    "immutable": "^3.8.2",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "react-redux": "^5.0.7",

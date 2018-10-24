@@ -5,26 +5,22 @@
  * @ All rights reserved.                                                               @
  * @@@@@@ At 2018-10-24 18:14 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@ */
 
-import * as constants from './const';
-
-export interface IIncrementEnthusiasm {
-  type: constants.INCREMENT_ENTHUSIASM;
+export enum TypeOfAction {
+  UPDATE_BEFORE_TEXT = 'UPDATE_BEFORE_TEXT',
+  ALERT_ON_COMPLETE = 'UPDATE_BEFORE_TEXT',
 }
 
-export interface IDecrementEnthusiasm {
-  type: constants.DECREMENT_ENTHUSIASM;
+
+export interface IActionUpdateBeforeText {
+  type: TypeOfAction.UPDATE_BEFORE_TEXT,
+  newText: string
 }
 
-export type EnthusiasmAction = IIncrementEnthusiasm | IDecrementEnthusiasm;
-
-export function incrementEnthusiasm(): IIncrementEnthusiasm {
-  return {
-    type: constants.INCREMENT_ENTHUSIASM
-  }
+export interface IActionAlertOnComplete {
+  type: TypeOfAction.ALERT_ON_COMPLETE,
+  AlertOnComplete: boolean
 }
 
-export function decrementEnthusiasm(): IDecrementEnthusiasm {
-  return {
-    type: constants.DECREMENT_ENTHUSIASM
-  }
-}
+export type ActionType = IActionAlertOnComplete | IActionUpdateBeforeText
+
+
