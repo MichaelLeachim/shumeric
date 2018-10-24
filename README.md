@@ -68,8 +68,8 @@ I decided to go with TypeScript and Tide.
 
 Why? 
 
-* They provide a decent `jump to` definition
-* The auto completion and flycheck works
+* They provide a decent `jump to`
+* The auto completion and flycheck work
 
 My current config for Emacs
 
