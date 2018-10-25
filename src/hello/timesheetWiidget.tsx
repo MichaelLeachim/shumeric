@@ -8,7 +8,7 @@
 import * as React from 'react';
 import { WorkingSession, AppState } from "./store";
 import * as ReactTooltip from 'react-tooltip'
-import { simpleTimeAsString, truncateString } from './utils';
+import { simpleTimeAsString, truncateString, dateString } from './utils';
 import { actionModalWorkingSession } from './actions';
 import * as  _ from "lodash/fp"
 import { List } from 'immutable';
@@ -21,8 +21,9 @@ interface dayRecord {
 interface IProps {
   records: List<dayRecord>
 }
+
 function mapStateToProps({ workingSessions }: AppState): IProps {
-  workingSessions.groupBy(function(a: IProps) { a.records }
+  workingSessions.groupBy(a => dateString(a.dateEnd))
   )
 
 

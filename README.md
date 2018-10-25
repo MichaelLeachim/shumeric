@@ -7,7 +7,11 @@ and lots of other JS ecosystem details that I have missed while working primaril
 ecosystem. 
 
 ## Status (Progress) log
+### [2018-10-25] [23:35] 
 
+* I really start to like TypeScript. Out of all the frontend mess, it does a decent 
+  work of making it less insane
+  
 ### [2018-10-25] [23:24] Now, I am getting better hang on this stuff
 
 Today, I've:
