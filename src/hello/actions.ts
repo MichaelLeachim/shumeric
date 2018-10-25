@@ -25,7 +25,8 @@ function actionCreator<P>(type: string): ActionCreator<P> {
 }
 
 export function isType<P>(action: Action<any>,
-  actionCreator: ActionCreator<P>): action is Action<P> {
+                          actionCreator: ActionCreator<P>): action is Action<P> {
+    
   return action.type === actionCreator.type;
 }
 

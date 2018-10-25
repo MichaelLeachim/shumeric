@@ -19,6 +19,11 @@ export enum CurrentWorkFrame {
   WORK_FRAME_SUMMARY,
 }
 
+export type DayRecord = {
+  date: string
+  children: List<WorkingSession>
+}
+
 export enum ModalType {
   TIMESHEET_MODAL = 1,
 }
@@ -48,7 +53,6 @@ export type ModalState = {
   modalType: ModalType
   modalContentLabel: string
   timeSheetModal: WorkingSession
-
 }
 
 export type AppState = {
@@ -64,6 +68,7 @@ const store = createStore<AppState, Action<any>, null, null>(Reducer, {
   currentWork: {},
   workingSessions: List([]),
 });
+
 
 export default store;
 

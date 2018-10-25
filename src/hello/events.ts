@@ -21,6 +21,7 @@ export function eventUpdateAfterText(state: AppState, newText: string): AppState
     ...state, currentWork:
       { ...state.currentWork, afterText: newText, tagList: List<string>(extractTags(newText)) }
   }
+
 }
 
 

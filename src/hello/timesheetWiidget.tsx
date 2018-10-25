@@ -10,27 +10,29 @@ import { WorkingSession, AppState } from "./store";
 import * as ReactTooltip from 'react-tooltip'
 import { simpleTimeAsString, truncateString, dateString } from './utils';
 import { actionModalWorkingSession } from './actions';
-import * as  _ from "lodash/fp"
+import { fromNullable, getOrd } from 'fp-ts/lib/Option'
 import { List } from 'immutable';
 
-interface dayRecord {
-  date: string
-  children: List<WorkingSession>
-}
 
 interface IProps {
   records: List<dayRecord>
 }
 
-function mapStateToProps({ workingSessions }: AppState): IProps {
-  workingSessions.groupBy(a => dateString(a.dateEnd))
-  )
-
-
-  return {
-    ms: modalState,
-  }
+type dayRecord = {
+  dateItem: string
+  children: List<WorkingSession>
 }
+
+function mapStateToProps({ workingSessions }: AppState): IProps {
+  let result = workingSessions
+    .take(30)
+    .groupBy(a => dateString(a.dateStart))
+    .filter((listOfItems, dateOfItem) => (listOfItems != null) && (dateOfItem != null))
+    .map((listOfItems, dateOfItem) => dayRecord({ dateItem: dateOfItem, children: listOfItems }))
+
+  return { records: result }
+}
+
 
 function mapDispatchToProps(dispatch: any) {
   return {

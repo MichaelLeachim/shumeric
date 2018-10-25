@@ -24,11 +24,11 @@ interface IProps {
 }
 
 function mapStateToProps({ currentWork, alertOnComplete, projectPlaceholder }: AppState): IProps {
-  return {
+  return IProps({
     cur: currentWork,
     describeProject: projectPlaceholder,
     alertOnComplete: alertOnComplete,
-  }
+  })
 }
 
 function mapDispatchToProps(dispatch: any) {
