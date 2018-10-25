@@ -19,9 +19,17 @@ export function extractTags(input: string): Array<string> {
   return matches ? matches : []
 }
 
+export function dateString(input: Date): string {
+  return input.getFullYear() + "-" + input.getMonth() + "-" + input.getDate()
+}
+
 export function simpleTimeAsString(s: SimpleTime): string {
   return s.hour + ":" + s.minute
 }
+
+// export function voidfn(...input): void {
+//   return
+// }
 
 export function truncateString(str: string, num: number): string {
   return str.length > num ? str.slice(0, num > 3 ? num - 3 : num) + '...' : str;

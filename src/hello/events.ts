@@ -5,7 +5,7 @@
 // @ All rights reserved.                                                               @
 // @@@@@@ At 2018-10-24 23:08 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@
 
-import { CurrentWorkFrame, AppState } from "./store";
+import { CurrentWorkFrame, AppState, WorkingSession } from "./store";
 import { List } from 'immutable';
 import { extractTags, newSimpleTime } from './utils';
 
@@ -71,6 +71,24 @@ export function eventBeginWorkingSession(state: AppState, now: Date, amount: num
     }
   }
 }
+
+export function eventModalWorkingSession(state: AppState, ws: WorkingSession): AppState {
+  return {
+    ...state, modalState: {
+      ...state.modalState, isModalOpen: true, timeSheetModal: ws
+    }
+  }
+}
+export function eventModalClose(state: AppState): AppState {
+  return {
+    ...state, modalState: {
+      ...state.modalState, isModalOpen: false
+    }
+  }
+}
+
+
+
 
 
 

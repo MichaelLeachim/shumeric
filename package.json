@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/lodash": "^4.14.117",
     "@types/react-circular-progressbar": "^1.0.1",
     "@types/react-modal": "^3.2.1",
     "@types/react-redux": "^6.0.9",
     "@types/react-tooltip": "^3.3.6",
     "immutable": "^3.8.2",
+    "lodash": "^4.17.11",
     "react": "^16.6.0",
     "react-circular-progressbar": "^1.0.0",
     "react-dom": "^16.6.0",

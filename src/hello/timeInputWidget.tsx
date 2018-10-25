@@ -89,7 +89,7 @@ function workSessionInProgressWidget({ describeProject, cur, cancelWorkSession }
           defaultValue={describeProject} />
 
         <div className="mik-flush-right mik-pad-top-0 mik-fs-0">
-          Working for: <b>{{ amount }} min</b>
+          Working for: <b>{amount} min</b>
         </div>
 
         <div className="mik-flush-center mik-pad-2">
@@ -136,7 +136,7 @@ function workSessionCompleteWidget({ describeProject, cur, updateAfterText, canc
           </ul>
           <textarea placeholder="Write a review on what you have achieved during this time" style={{ width: '100%', resize: 'vertical' }}
             onChange={updateAfterText}
-            value={{ afterText }} />
+            value={afterText} />
 
           <div className="mik-grey mik-fs-0 mik-flush-right mik-margin-0 mik-cut-right">
             Earlier tags will be overwritten by postcriptum

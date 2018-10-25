@@ -6,8 +6,8 @@
  * @@@@@@ At 2018-10-24 18:17 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@ */
 
 import { AppState } from './store';
-import { Action, actionUpdateBeforeText, isType, actionBeginWorkSession, actionAlertOnComplete, actionCancelWorkSession, actionFinalizeWorkSession, } from './actions';
-import { eventUpdateBeforeText, eventSetAlertOnUpdate, eventBeginWorkingSession, eventCancelWorkSession, eventUpdateAfterText, eventFinalizeWorkSession } from './events';
+import { Action, actionUpdateBeforeText, isType, actionBeginWorkSession, actionAlertOnComplete, actionCancelWorkSession, actionFinalizeWorkSession, actionModalWorkingSession, actionModalClose, } from './actions';
+import { eventUpdateBeforeText, eventSetAlertOnUpdate, eventBeginWorkingSession, eventCancelWorkSession, eventUpdateAfterText, eventFinalizeWorkSession, eventModalClose, eventModalWorkingSession } from './events';
 
 
 export function Reducer(state: AppState, action: Action<any>): AppState {
@@ -29,5 +29,14 @@ export function Reducer(state: AppState, action: Action<any>): AppState {
   if (isType(action, actionFinalizeWorkSession)) {
     return eventFinalizeWorkSession(state, action.payload.now)
   }
+
+  if (isType(action, actionModalClose)) {
+    return eventModalClose(state)
+  }
+
+  if (isType(action, actionModalWorkingSession)) {
+    return eventModalWorkingSession(state, action.payload.ws)
+  }
+
   return state;
 }

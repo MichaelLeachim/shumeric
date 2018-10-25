@@ -3,11 +3,14 @@
  * @ You can find additional information regarding licensing of this work in LICENSE.md @
  * @ You must not remove this notice, or any other, from this software.                 @
  * @ All rights reserved.                                                               @
- * @@@@@@ At 2018-10-24 18:13 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@ */
+ * @@@@@@ At 2018-10-24 18:13 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@ 
+ */
+
 import { createStore } from 'redux';
 
 import { Action } from "./actions";
 import { Reducer } from './reducers';
+
 import { List } from "immutable"
 
 export enum CurrentWorkFrame {
@@ -43,6 +46,9 @@ export interface CurrentWorkingSession extends WorkingSession {
 export type ModalState = {
   isModalOpen: boolean
   modalType: ModalType
+  modalContentLabel: string
+  timeSheetModal: WorkingSession
+
 }
 
 export type AppState = {

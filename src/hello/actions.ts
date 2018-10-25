@@ -5,6 +5,8 @@
  * @ All rights reserved.                                                               @
  * @@@@@@ At 2018-10-24 18:14 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@ */
 
+import { WorkingSession } from './store';
+
 export type Action<TPayload> = {
   type: string;
   payload: TPayload;
@@ -34,7 +36,7 @@ export const actionBeginWorkSession = actionCreator<{ amount: number, now: Date 
 export const actionUpdateAfterText = actionCreator<{ inputText: string }>("END_WORK_SESSION_SET_TEXT")
 export const actionFinalizeWorkSession = actionCreator<{ now: Date }>("FINALIZE_WORK_SESSION")
 
-export const actionModalOpen = actionCreator<{}>("MODAL_OPEN")
+export const actionModalWorkingSession = actionCreator<{ ws: WorkingSession }>("WORKING_SESSION_MODAL")
 export const actionModalClose = actionCreator<{}>("MODAL_CLOSE")
 
 
