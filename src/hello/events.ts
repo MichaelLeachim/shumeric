@@ -5,20 +5,72 @@
 // @ All rights reserved.                                                               @
 // @@@@@@ At 2018-10-24 23:08 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@
 
-import { IAppState } from "./store";
-import { IActionUpdateBeforeText, IActionAlertOnComplete } from './actions';
+import { CurrentWorkFrame, AppState } from "./store";
+import { List } from 'immutable';
+import { extractTags, newSimpleTime } from './utils';
 
-export function eventUpdateBeforeText(state: IAppState, action: IActionUpdateBeforeText): IAppState {
+export function eventUpdateBeforeText(state: AppState, newText: string): AppState {
   return {
     ...state, currentWork:
-      { ...state.currentWork, beforeText: action.newText }
+      { ...state.currentWork, beforeText: newText, tagList: List<string>(extractTags(newText)) }
   }
 }
 
-export function eventSetAlertOnUpdate(state: IAppState, action: IActionAlertOnComplete): IAppState {
+export function eventUpdateAfterText(state: AppState, newText: string): AppState {
   return {
-    ...state, alertOnComplete: action.AlertOnComplete
+    ...state, currentWork:
+      { ...state.currentWork, afterText: newText, tagList: List<string>(extractTags(newText)) }
   }
 }
+
+
+export function eventCancelWorkSession(state: AppState): AppState {
+  return {
+    ...state, currentWork:
+    {
+      ...state.currentWork,
+      pageState: CurrentWorkFrame.WORK_FRAME_START_WORK,
+    }
+  }
+}
+
+
+// 1. close the session.
+// 2. swap its working state
+// 3. push result to work session list
+// 4. [optional] recalculate statistics
+export function eventFinalizeWorkSession(state: AppState, now: Date): AppState {
+  return {
+    ...state, currentWork:
+      { ...state.currentWork, pageState: CurrentWorkFrame.WORK_FRAME_START_WORK },
+    workingSessions: state.workingSessions.unshift(
+      {
+        ...state.currentWork,
+        endedAt: newSimpleTime(now),
+        dateEnd: now,
+      })
+  }
+
+}
+
+export function eventSetAlertOnUpdate(state: AppState, alertOnComplete: boolean): AppState {
+  return {
+    ...state, alertOnComplete: alertOnComplete
+  }
+}
+
+export function eventBeginWorkingSession(state: AppState, now: Date, amount: number): AppState {
+  return {
+    ...state, currentWork:
+    {
+      ...state.currentWork,
+      pageState: CurrentWorkFrame.WORK_FRAME_WORKING,
+      startedAt: { hour: now.getHours(), minute: now.getMinutes() },
+      amount: amount,
+      dateStart: now,
+    }
+  }
+}
+
 
 

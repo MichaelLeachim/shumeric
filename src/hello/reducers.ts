@@ -5,15 +5,29 @@
  * @ All rights reserved.                                                               @
  * @@@@@@ At 2018-10-24 18:17 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@ */
 
-import { IAppState } from './store';
-import { ActionType, TypeOfAction } from './actions';
-import { eventUpdateBeforeText, eventSetAlertOnUpdate } from './events';
-export function reducer(state: IAppState, action: ActionType): IAppState {
-  switch (action.type) {
-    case TypeOfAction.UPDATE_BEFORE_TEXT:
-      return eventUpdateBeforeText(state, action)
-    case TypeOfAction.ALERT_ON_COMPLETE:
-      return eventSetAlertOnUpdate(state, action)
+import { AppState } from './store';
+import { Action, actionUpdateBeforeText, isType, actionBeginWorkSession, actionAlertOnComplete, actionCancelWorkSession, actionFinalizeWorkSession, } from './actions';
+import { eventUpdateBeforeText, eventSetAlertOnUpdate, eventBeginWorkingSession, eventCancelWorkSession, eventUpdateAfterText, eventFinalizeWorkSession } from './events';
+
+
+export function Reducer(state: AppState, action: Action<any>): AppState {
+  if (isType(action, actionUpdateBeforeText)) {
+    return eventUpdateBeforeText(state, action.payload.inputText)
+  }
+  if (isType(action, actionAlertOnComplete)) {
+    return eventSetAlertOnUpdate(state, action.payload.shouldAlert)
+  }
+  if (isType(action, actionBeginWorkSession)) {
+    return eventBeginWorkingSession(state, action.payload.now, action.payload.amount)
+  }
+  if (isType(action, actionCancelWorkSession)) {
+    return eventCancelWorkSession(state)
+  }
+  if (isType(action, actionUpdateBeforeText)) {
+    return eventUpdateAfterText(state, action.payload.inputText)
+  }
+  if (isType(action, actionFinalizeWorkSession)) {
+    return eventFinalizeWorkSession(state, action.payload.now)
   }
   return state;
 }

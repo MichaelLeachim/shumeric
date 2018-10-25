@@ -10,39 +10,51 @@ import { Action } from "./actions";
 import { Reducer } from './reducers';
 import { List } from "immutable"
 
-enum CurrentWorkFrame (
+export enum CurrentWorkFrame {
   WORK_FRAME_START_WORK = 1,
   WORK_FRAME_WORKING,
   WORK_FRAME_SUMMARY,
-)
+}
 
-export interface ITime {
+export enum ModalType {
+  TIMESHEET_MODAL = 1,
+}
+
+export type SimpleTime = {
   hour: number
   minute: number
 }
 
-export interface IWorkingSession {
-  startedAt: ITime
-  endedAt: ITime
+export type WorkingSession = {
+  startedAt: SimpleTime
+  endedAt: SimpleTime
   amount: number
   beforeText: string
   afterText: string
   dateStart: Date
   dateEnd: Date
-  taglist: List<string>
+  tagList: List<string>
 }
 
-export interface ICurrentWorkingSession extends IWorkingSession {
+export interface CurrentWorkingSession extends WorkingSession {
   pageState: CurrentWorkFrame
 }
 
-export interface IAppState {
-  alertOnComplete: boolean
-  currentWork: ICurrentWorkingSession
-  workingSessions: List<IWorkingSession>
+export type ModalState = {
+  isModalOpen: boolean
+  modalType: ModalType
 }
 
-const store = createStore<IAppState, Action, null, null>(Reducer, {
+export type AppState = {
+  alertOnComplete: boolean
+  projectPlaceholder: string
+  modalState: ModalState
+  currentWork: CurrentWorkingSession
+  workingSessions: List<WorkingSession>
+}
+
+const store = createStore<AppState, Action<any>, null, null>(Reducer, {
+  modalState: { isModalOpen: false },
   currentWork: {},
   workingSessions: List([]),
 });

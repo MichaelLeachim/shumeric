@@ -9,7 +9,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import * as actions from './actions';
-import { IStoreState } from './headers';
+import { IAppState } from './store';
 
 export interface IProps {
   name: string;
@@ -18,7 +18,7 @@ export interface IProps {
   onDecrement?: () => void;
 }
 
-export function mapStateToProps({ enthusiasmLevel, languageName }: IStoreState) {
+export function subscription({ enthusiasmLevel, languageName }: IAppState) {
   return {
     enthusiasmLevel,
     name: languageName,
@@ -35,6 +35,7 @@ export function mapDispatchToProps(dispatch: any) {
 function getExclamationMarks(numChars: number): string {
   return Array(numChars + 1).join('!');
 }
+
 
 function Hello({ name, enthusiasmLevel = 1, onIncrement, onDecrement }: IProps) {
   if (enthusiasmLevel <= 0) {
