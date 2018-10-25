@@ -21,8 +21,11 @@ interface dayRecord {
 interface IProps {
   records: List<dayRecord>
 }
+function mapStateToProps({ workingSessions }: AppState): IProps {
+  workingSessions.groupBy(function(a: IProps) { a.records }
+  )
 
-function mapStateToProps({ modalState }: AppState): IProps {
+
   return {
     ms: modalState,
   }

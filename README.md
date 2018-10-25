@@ -8,6 +8,21 @@ ecosystem.
 
 ## Status (Progress) log
 
+### [2018-10-25] [23:24] Now, I am getting better hang on this stuff
+
+Today, I've:
+
+* Implemented integration of modals within the Redux pattern (the same way I did with Reframe). 
+* Did most of the "dumb" part of this tiny demo app. 
+* Figured out(?) how to befriend Immutable and TypeScript.
+* found a better way online to have less boilerplate within the actions.
+  [see this](https://github.com/MichaelLeachim/shumeric/blob/668e7ba3d6eea714a9c3c63d267c7a47e275dfcf/src/hello/actions.ts)
+* The TypeScript handle of null is better than it was in 2015
+* Type inference is also cool and works. 
+* This app now is an absolute mess now. I am going to refactor it after finishing basic functionality. 
+
+
+
 ### [2018-10-25] [01:28] Okay, experience of JS/TS after ClojureScript. TLDR: I don't like it
 
 Okay, I am, basically, lost in how quirky dynamic and, arbitrary,  everything is. 
