@@ -6,14 +6,15 @@
  * @@@@@@ At 2018-10-24 22:38 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@ */
 
 import * as React from 'react';
-import { AppState, CurrentWorkingSession } from './store';
+import { AppState, WorkingSession } from './store';
 import { actionUpdateBeforeText, actionAlertOnComplete, actionCancelWorkSession, actionUpdateAfterText, actionFinalizeWorkSession, actionBeginWorkSession } from './actions';
 import CircularProgressbar from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { millisecondsTillNow, formatDuration } from './utils';
+import { fromNullable } from 'fp-ts/lib/Option';
 
 interface IProps {
-  cur: CurrentWorkingSession;
+  cur: WorkingSession;
   alertOnComplete: boolean;
   describeProject: string;
   finalizeWorkSession?: () => void
@@ -23,15 +24,15 @@ interface IProps {
   updateAlertOnComplete?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-function mapStateToProps({ currentWork, alertOnComplete, projectPlaceholder }: AppState): IProps {
-  return IProps({
+const mapStateToProps = ({ currentWork, alertOnComplete, projectPlaceholder }: AppState): IProps => {
+  return {
     cur: currentWork,
     describeProject: projectPlaceholder,
     alertOnComplete: alertOnComplete,
-  })
+  }
 }
 
-function mapDispatchToProps(dispatch: any) {
+const mapDispatchToProps = (dispatch: any) => {
   return {
     updateBeforeText: function(e: React.ChangeEvent<HTMLInputElement>): void {
       dispatch(actionUpdateBeforeText({ inputText: e.target.textContent || "" }))
@@ -54,27 +55,25 @@ function mapDispatchToProps(dispatch: any) {
   }
 }
 
-function workSessionStart({ updateAlertOnComplete, updateBeforeText, describeProject, submitNewWorkSession }: IProps) {
-  return (
-    <form className="pure-form">
-      <textarea placeholder={describeProject}
-        onChange={updateBeforeText}
-        style={{ width: '100%', resize: 'vertical' }}
-      />
-      <div className="mik-flush-right mik-pad-top-0 mik-fs-0">
-        <button className="pure-button mik-green-s-1-back-angry mik-margin-right-0" onClick={() => submitNewWorkSession(10)} >10 min</button>
-        <button className="pure-button mik-green-s-2-back-angry mik-margin-right-0" onClick={() => submitNewWorkSession(25)}>25 min</button>
-        <button className="pure-button mik-green-s-4-back-angry" onClick={() => submitNewWorkSession(60)}>1  hour</button>
-      </div>
-      <div className="mik-flush-right mik-pad-top-0">
-        <label className="mik-fs-0" htmlFor="notify" style={{ cursor: 'pointer' }}>
-          <input id="notify" type="checkbox" onChange={updateAlertOnComplete} /> Notify when complete? </label>
-      </div>
-    </form>
-  )
-}
+const workSessionStart = ({ updateAlertOnComplete, updateBeforeText, describeProject, submitNewWorkSession }: IProps) =>
+  <form className="pure-form">
+    <textarea placeholder={describeProject}
+      onChange={fromNullable(updateBeforeText).map(a => a())}
+      style={{ width: '100%', resize: 'vertical' }}
+    />
+    <div className="mik-flush-right mik-pad-top-0 mik-fs-0">
+      <button className="pure-button mik-green-s-1-back-angry mik-margin-right-0" onClick={() => fromNullable(submitNewWorkSession).map(a => a(10))} >10 min</button>
+      <button className="pure-button mik-green-s-2-back-angry mik-margin-right-0" onClick={() => fromNullable(submitNewWorkSession).map(a => a(25))}>25 min</button>
+      <button className="pure-button mik-green-s-4-back-angry" onClick={() => fromNullable(submitNewWorkSession).map(a => a(60))}>1  hour</button>
+    </div>
+    <div className="mik-flush-right mik-pad-top-0">
+      <label className="mik-fs-0" htmlFor="notify" style={{ cursor: 'pointer' }}>
+        <input id="notify" type="checkbox" onChange={updateAlertOnComplete} /> Notify when complete? </label>
+    </div>
+  </form >
 
-function workSessionInProgressWidget({ describeProject, cur, cancelWorkSession }: IProps) {
+
+const workSessionInProgressWidget = ({ describeProject, cur, cancelWorkSession }: IProps) => {
   let { amount, dateStart } = cur
 
   let amountInMS = (amount * 1000 * 60)
@@ -117,41 +116,33 @@ function workSessionInProgressWidget({ describeProject, cur, cancelWorkSession }
   );
 }
 
-function workSessionCompleteWidget({ describeProject, cur, updateAfterText, cancelWorkSession, finalizeWorkSession }: IProps) {
-  let { afterText, amount } = cur
-  return (
-    <div className="mik-pad-0 mik-margin-1">
-      <form className="pure-form">
-        <textarea disabled={true}
-          style={{ width: '100%', resize: 'vertical' }}
-          value={describeProject} />
-        <div className="mik-flush-right mik-pad-top-0 mik-fs-0">
-          You've worked: <b> {`1 session for ${amount} minutes`}</b>
-        </div>
-        <div className="mik-tiny-container mik-margin-1">
-          <ul className="mik-fs-0">
-            <li>What did you achieved? </li>
-            <li>How did the task change while working?</li>
-            <li>How did the initial definiton of the task changed?</li>
-          </ul>
-          <textarea placeholder="Write a review on what you have achieved during this time" style={{ width: '100%', resize: 'vertical' }}
-            onChange={updateAfterText}
-            value={afterText} />
+const workSessionCompleteWidget = ({ describeProject, cur: { afterText, amount }, updateAfterText, cancelWorkSession, finalizeWorkSession }: IProps) =>
+  <div className="mik-pad-0 mik-margin-1">
+    <form className="pure-form">
+      <textarea disabled={true}
+        style={{ width: '100%', resize: 'vertical' }}
+        value={describeProject} />
+      <div className="mik-flush-right mik-pad-top-0 mik-fs-0">
+        You've worked: <b> {`1 session for ${amount} minutes`}</b>
+      </div>
+      <div className="mik-tiny-container mik-margin-1">
+        <ul className="mik-fs-0">
+          <li>What did you achieved? </li>
+          <li>How did the task change while working?</li>
+          <li>How did the initial definiton of the task changed?</li>
+        </ul>
+        <textarea placeholder="Write a review on what you have achieved during this time" style={{ width: '100%', resize: 'vertical' }}
+          onChange={updateAfterText}
+          value={afterText} />
 
-          <div className="mik-grey mik-fs-0 mik-flush-right mik-margin-0 mik-cut-right">
-            Earlier tags will be overwritten by postcriptum
+        <div className="mik-grey mik-fs-0 mik-flush-right mik-margin-0 mik-cut-right">
+          Earlier tags will be overwritten by postcriptum
           </div>
 
-          <div className="mik-flush-right mik-fs-0">
-            <button className="pure-button mik-red-back-angry mik-margin-right-0" onClick={cancelWorkSession}>Cancel session</button>
-            <button className="pure-button mik-green-back-angry" onClick={finalizeWorkSession}>Add to timesheet!</button>
-          </div>
+        <div className="mik-flush-right mik-fs-0">
+          <button className="pure-button mik-red-back-angry mik-margin-right-0" onClick={cancelWorkSession}>Cancel session</button>
+          <button className="pure-button mik-green-back-angry" onClick={finalizeWorkSession}>Add to timesheet!</button>
         </div>
-      </form>
-    </div>
-  );
-}
-
-
-
-
+      </div>
+    </form>
+  </div>

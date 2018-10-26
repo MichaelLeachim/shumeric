@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@types/react-calendar-heatmap": "^1.6.2",
     "fp-ts": "^1.10.0",
     "immutable": "^4.0.0-rc.10",
     "react": "^16.6.0",
@@ -22,7 +21,8 @@
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject"
   },
-  "devDependencies": {
+    "devDependencies": {
+        "@types/react-calendar-heatmap": "^1.6.2",
     "@types/enzyme": "^3.1.14",
     "@types/enzyme-adapter-react-16": "^1.0.3",
     "@types/jest": "^23.3.7",

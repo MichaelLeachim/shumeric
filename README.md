@@ -6,6 +6,20 @@ The point of this project is to set up/remember my old knowledge of JS/ES6/React
 and lots of other JS ecosystem details that I have missed while working primarily with back end or ClojureScript 
 ecosystem. 
 
+## What this project uses:
+
+* es6: let/const, fat arrow, spread shallow copy, nested destructuring, modules
+* Immutable.js: Records/Maps/Lists
+* Redux
+* TS: type definitions, higher kinded types
+* React: Stateless components, JSX, various contrib components, such as: calendar-heatmap or circular-progressbar
+* fp-ts: Option type
+* Plan to use:
+  * async/await
+  * Redux-Saga
+  * [SheetJS](https://github.com/SheetJS/js-xlsx)
+  
+  
 ## Status (Progress) log
 ### [2018-10-26] [20:40] Immutable.js with Typescript Records and sanity
 
@@ -56,8 +70,8 @@ state.setIn(["a","b","c","d"],"whatever) // ok
 ```
 
 See more for:
-* https://github.com/MichaelLeachim/shumeric/blob/9ab0700b46626d14fc181c7fb85ed9864b30e256/src/hello/events.ts
-* https://github.com/MichaelLeachim/shumeric/blob/9ab0700b46626d14fc181c7fb85ed9864b30e256/src/hello/store.ts
+* [events.ts](https://github.com/MichaelLeachim/shumeric/blob/9ab0700b46626d14fc181c7fb85ed9864b30e256/src/hello/events.ts)
+* [store.ts](https://github.com/MichaelLeachim/shumeric/blob/9ab0700b46626d14fc181c7fb85ed9864b30e256/src/hello/store.ts)
 
 
 

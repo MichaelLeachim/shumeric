@@ -11,7 +11,7 @@ import { createStore } from 'redux';
 import { Action } from "./actions";
 import { Reducer } from './reducers';
 
-import { List, RecordOf } from "immutable"
+import { Map, List, RecordOf } from "immutable"
 
 export enum CurrentWorkFrame {
   WORK_FRAME_START_WORK = 1,
@@ -58,6 +58,21 @@ export type AppState = RecordOf<{
   pageState: CurrentWorkFrame
   currentWork: WorkingSession
   workingSessions: List<WorkingSession>
+  statsCollector: StatsCollector
+}>
+
+export type StatRecord = RecordOf<{
+  countSessions: number
+  countTime: number
+  date: string
+}>
+
+// stats collector works on a year base
+export type StatsCollector = RecordOf<{
+  totalYear: StatRecord                // 1
+  monthOfYear: Map<number, StatRecord> // 1..12
+  dayOfYear: Map<number, StatRecord>   // 1..365
+  tagOfDay: Map<string, StatRecord>
 }>
 
 
