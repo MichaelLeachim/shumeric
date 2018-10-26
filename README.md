@@ -7,6 +7,62 @@ and lots of other JS ecosystem details that I have missed while working primaril
 ecosystem. 
 
 ## Status (Progress) log
+### [2018-10-26] [20:40] Immutable.js with Typescript Records and sanity
+
+Here is a somewhat of a half backed solution of this long standing problem:
+
+1. Use latest release candidate of Immutable.js:     `"immutable": "^4.0.0-rc.10",`
+
+Declare any type with `RecordOf` like this:
+```typescript
+
+export type ModalState = RecordOf<{
+  isModalOpen: boolean
+  modalType: ModalType
+  modalContentLabel: string
+  timeSheetModal: WorkingSession
+}>
+
+export type AppState = RecordOf<{
+  alertOnComplete: boolean
+  projectPlaceholder: string
+  modalState: ModalState
+  currentWork: CurrentWorkingSession
+  workingSessions: List<WorkingSession>
+}>
+
+```
+
+Then, getting works and *is* typechecked:
+
+```typescript
+// What does work: 
+// state is of RecordOf<AppState>
+
+state.currentWork // ok
+state.CURRRENT // property does not exist
+
+state.set("currentWork222",state.currentWork) // argument of type .... is not assignable
+state.set("currentWork",12) // number is not assignable to type CurrentWorkingSession
+state.set("currentWork",state.currentWork) // ok
+
+state.currentWork = state.currentWork // cannot assign to readonly property
+
+// what doesn't work
+
+state.setIn(["a","b","c","d"],"whatever) // ok
+
+
+```
+
+
+
+
+
+
+
+
+
 ### [2018-10-25] [23:35] 
 
 * I really start to like TypeScript. Out of all the frontend mess, it does a decent 

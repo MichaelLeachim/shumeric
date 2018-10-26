@@ -3,15 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/react-calendar-heatmap": "^1.6.2",
     "fp-ts": "^1.10.0",
+    "immutable": "^4.0.0-rc.10",
     "react": "^16.6.0",
+    "react-calendar-heatmap": "^1.7.0",
     "react-circular-progressbar": "^1.0.0",
     "react-dom": "^16.6.0",
     "react-modal": "^3.6.1",
     "react-redux": "^5.0.7",
     "react-scripts-ts": "3.1.0",
-      "react-tooltip": "^3.9.0",
-      "immutable": "^4.0.0-rc.10",
+    "react-tooltip": "^3.9.0",
     "redux": "^4.0.1"
   },
   "scripts": {

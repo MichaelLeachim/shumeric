@@ -9,84 +9,57 @@ import { CurrentWorkFrame, AppState, WorkingSession } from "./store";
 import { List } from 'immutable';
 import { extractTags, newSimpleTime } from './utils';
 
-export function eventUpdateBeforeText(state: AppState, newText: string): AppState {
-  return {
-    ...state, currentWork:
-      { ...state.currentWork, beforeText: newText, tagList: List<string>(extractTags(newText)) }
-  }
-}
-
-export function eventUpdateAfterText(state: AppState, newText: string): AppState {
-  return {
-    ...state, currentWork:
-      { ...state.currentWork, afterText: newText, tagList: List<string>(extractTags(newText)) }
-  }
-
-}
+export const eventUpdateBeforeText = (state: AppState, newText: string): AppState =>
+  state.set("currentWork",
+    state.currentWork
+      .set("beforeText", newText)
+      .set("tagList", List<string>(extractTags(newText))))
 
 
-export function eventCancelWorkSession(state: AppState): AppState {
-  return {
-    ...state, currentWork:
-    {
-      ...state.currentWork,
-      pageState: CurrentWorkFrame.WORK_FRAME_START_WORK,
-    }
-  }
-}
+export const eventUpdateAfterText = (state: AppState, newText: string): AppState =>
+  state.set("currentWork",
+    state.currentWork
+      .set("afterText", newText)
+      .set("tagList", List<string>(extractTags(newText))))
 
+export const eventCancelWorkSession = (state: AppState): AppState =>
+  state.set("pageState", CurrentWorkFrame.WORK_FRAME_START_WORK)
 
 // 1. close the session.
 // 2. swap its working state
 // 3. push result to work session list
 // 4. [optional] recalculate statistics
-export function eventFinalizeWorkSession(state: AppState, now: Date): AppState {
-  return {
-    ...state, currentWork:
-      { ...state.currentWork, pageState: CurrentWorkFrame.WORK_FRAME_START_WORK },
-    workingSessions: state.workingSessions.unshift(
-      {
-        ...state.currentWork,
-        endedAt: newSimpleTime(now),
-        dateEnd: now,
-      })
-  }
+export const eventFinalizeWorkSession = (state: AppState, now: Date): AppState =>
+  state
+    .set("pageState", CurrentWorkFrame.WORK_FRAME_START_WORK)
+    .set("workingSessions", state.workingSessions.unshift(
+      state.currentWork
+        .set("endedAt", newSimpleTime(now))
+        .set("dateEnd", now)))
 
-}
+export const eventSetAlertOnUpdate = (state: AppState, alertOnComplete: boolean): AppState =>
+  state.set("alertOnComplete", alertOnComplete)
 
-export function eventSetAlertOnUpdate(state: AppState, alertOnComplete: boolean): AppState {
-  return {
-    ...state, alertOnComplete: alertOnComplete
-  }
-}
+export const eventBeginWorkingSession = (state: AppState, now: Date, amount: number): AppState =>
+  state
+    .set("pageState", CurrentWorkFrame.WORK_FRAME_WORKING)
+    .set("currentWork",
+      state.currentWork
+        .set("startedAt", newSimpleTime(now))
+        .set("amount", amount)
+        .set("dateStart", now))
 
-export function eventBeginWorkingSession(state: AppState, now: Date, amount: number): AppState {
-  return {
-    ...state, currentWork:
-    {
-      ...state.currentWork,
-      pageState: CurrentWorkFrame.WORK_FRAME_WORKING,
-      startedAt: { hour: now.getHours(), minute: now.getMinutes() },
-      amount: amount,
-      dateStart: now,
-    }
-  }
-}
+export const eventModalWorkingSession = (state: AppState, ws: WorkingSession): AppState =>
+  state.set("modalState",
+    state.modalState
+      .set("isModalOpen", true)
+      .set("timeSheetModal", ws))
 
-export function eventModalWorkingSession(state: AppState, ws: WorkingSession): AppState {
-  return {
-    ...state, modalState: {
-      ...state.modalState, isModalOpen: true, timeSheetModal: ws
-    }
-  }
-}
-export function eventModalClose(state: AppState): AppState {
-  return {
-    ...state, modalState: {
-      ...state.modalState, isModalOpen: false
-    }
-  }
-}
+export const eventModalClose = (state: AppState): AppState =>
+  state.set("modalState",
+    state.modalState.set("isModalOpen", false))
+
+
 
 
 

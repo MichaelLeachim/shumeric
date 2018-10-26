@@ -5,6 +5,7 @@
 // @ All rights reserved.                                                               @
 // @@@@@@ At 2018-10-25 18:37 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@
 import { SimpleTime } from './store';
+import { Record } from 'immutable';
 
 type TimeDuration = {
   day: number; hour: number; minute: number; second: number; millisecond: number
@@ -36,7 +37,7 @@ export function truncateString(str: string, num: number): string {
 }
 
 export function newSimpleTime(date: Date): SimpleTime {
-  return { hour: date.getHours(), minute: date.getMinutes() }
+  return Record({ hour: 0, minute: 0 })({ hour: date.getHours(), minute: date.getMinutes() })
 }
 
 export function formatDuration(ms: number): TimeDuration {
