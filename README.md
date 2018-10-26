@@ -55,6 +55,10 @@ state.setIn(["a","b","c","d"],"whatever) // ok
 
 ```
 
+See more for:
+* https://github.com/MichaelLeachim/shumeric/blob/9ab0700b46626d14fc181c7fb85ed9864b30e256/src/hello/events.ts
+* https://github.com/MichaelLeachim/shumeric/blob/9ab0700b46626d14fc181c7fb85ed9864b30e256/src/hello/store.ts
+
 
 
 
