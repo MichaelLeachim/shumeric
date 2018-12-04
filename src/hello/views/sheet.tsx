@@ -5,37 +5,27 @@
  * @ All rights reserved.                                                               @
  * @@@@@@ At 2018-10-25 20:20 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@
  *  */
+
 import * as React from 'react';
-import { WorkingSession, AppState, StatRecord } from "./store";
+import { WorkingSession, AppState } from "../store";
 import * as ReactTooltip from 'react-tooltip'
-import { simpleTimeAsString, truncateString, dateString } from './utils';
-import { actionModalWorkingSession, actionModalClose } from './actions';
-import { fromNullable } from 'fp-ts/lib/Option'
+import { connect } from 'react-redux'
+
+import { simpleTimeAsString, truncateString, dateString } from '../utils';
+import { actionModalWorkingSession, actionModalClose } from '../actions';
 import { List } from 'immutable';
 import 'react-calendar-heatmap/dist/styles.css';
-import ReactCalendarHeatmap from 'react-calendar-heatmap';
+
 
 interface IProps {
   records: List<{
     dateItem: string
     children: List<WorkingSession>
   }>
-  today: StatRecord
-  thisMonth: StatRecord
-  thisYear: StatRecord
-  contribCount: List<{ data: string, count: number }>
-  startDate: Date,
-  endDate: Date,
 }
 
-const mapStateToProps = ({ workingSessions, statsCollector: { dayOfYear } }: AppState): IProps => {
-  let contribCount = dayOfYear
-    .map((item, day) => { return { data: item.date, count: item.countSessions } }).toList();
-  let now = new Date()
+const mapStateToProps = ({ workingSessions, }: AppState): IProps => {
   return {
-    contribCount: contribCount,
-    startDate: fromNullable(contribCount.first()).map(item => new Date(item.data)).getOrElse(now),
-    endDate: fromNullable(contribCount.last()).map(item => new Date(item.data)).getOrElse(now),
     records: workingSessions
       .take(100)
       .groupBy(a => dateString(a.dateStart))
@@ -44,7 +34,6 @@ const mapStateToProps = ({ workingSessions, statsCollector: { dayOfYear } }: App
       .toList()
   }
 }
-
 
 const mapDispatchToProps = (dispatch: any) => {
   closeModal: () => dispatch(actionModalClose({}))
@@ -86,38 +75,4 @@ const timeSheetWidget = (props: IProps) =>
     </ul>
   </div>
 
-
-const contributionsWidget = ({ contribCount, startDate, endDate }: IProps) =>
-  <div className="mik-pad-0 mik-margin-1">
-    <div className="mik-flush-right mik-pad-bottom-0">
-      <b className="mik-grey">contributions</b></div>
-    <ReactCalendarHeatmap
-      values={contribCount.toArray()}
-      startDate={startDate}
-      endDate={endDate}
-    />
-  </div>
-
-const statsPanel = (props: IProps) =>
-  <div className="mik-margin-top-5" >
-    <ul className="mik-cut-left" style={{ listStyle: 'none' }}>
-      <li className="mik-flush-right">
-        <div className="mik-grey">
-          <a className="no-decor mik-cut-top" href="#">Today</a>
-        </div>
-        <div className="mik-fs-0">
-          <b> 5 </b>sessions /<b> 4 </b>hours
-        </div>
-      </li>
-
-      <ul className="mik-cut-left" style={{ listStyle: 'none' }}>
-        <li className="mik-flush-right">
-          <div className="mik-grey">
-            <a className="no-decor mik-cut-top" href="#">#opensource</a>
-          </div>
-          <div className="mik-fs-0"><b> 5 </b>sessions /<b> 4 </b>hours</div>
-        </li>
-      </ul>
-    </ul>
-  </div>
-
+export default connect(mapStateToProps, mapDispatchToProps)(timeSheetWidget)

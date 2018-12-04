@@ -4,6 +4,7 @@
 // @ You must not remove this notice, or any other, from this software.                 @
 // @ All rights reserved.                                                               @
 // @@@@@@ At 2018-10-25 18:37 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@
+
 import { SimpleTime } from './store';
 import { Record, List } from 'immutable';
 

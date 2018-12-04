@@ -12,9 +12,9 @@ import { increment } from 'fp-ts/lib/function';
 
 export const updateStatRecord = (state: AppState, record: WorkingSession, now: Date): AppState => {
   let tags = extractTags(record.afterText).toSet()
-  "thisMonth"
-  "thisDay"
-  "thisYear"
+  // "thisMonth"
+  // "thisDay"
+  // "thisYear"
   let updatefn = (item: StatRecord) => item
     .set("date", dateString(now))
     .update("countSessions", increment)

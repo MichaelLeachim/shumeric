@@ -5,27 +5,40 @@
  * @ All rights reserved.                                                               @
  * @@@@@@ At 2018-10-24 22:38 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@ */
 
+// Widget that implements helps adding and removing time.
+
 import * as React from 'react';
-import { AppState, WorkingSession } from './store';
-import { actionUpdateBeforeText, actionAlertOnComplete, actionCancelWorkSession, actionUpdateAfterText, actionFinalizeWorkSession, actionBeginWorkSession } from './actions';
+import { AppState, WorkingSession, CurrentWorkFrame } from '../store';
+import {
+  actionUpdateBeforeText, actionAlertOnComplete, actionCancelWorkSession,
+  actionUpdateAfterText, actionFinalizeWorkSession, actionBeginWorkSession
+} from '../actions';
+
+import { connect } from 'react-redux'
 import CircularProgressbar from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import { millisecondsTillNow, formatDuration } from './utils';
+import { millisecondsTillNow, formatDuration } from '../utils';
 import { fromNullable } from 'fp-ts/lib/Option';
+import { identity } from 'fp-ts/lib/function';
 
 interface IProps {
+  // props
+  pageState: CurrentWorkFrame
   cur: WorkingSession;
   alertOnComplete: boolean;
   describeProject: string;
+  // dispatchers
   finalizeWorkSession?: () => void
   cancelWorkSession?: () => void
   submitNewWorkSession?: (amount: number) => void
-  updateBeforeText?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  updateAfterText?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
+  updateBeforeText?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
   updateAlertOnComplete?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-const mapStateToProps = ({ currentWork, alertOnComplete, projectPlaceholder }: AppState): IProps => {
+const mapStateToProps = ({ currentWork, alertOnComplete, projectPlaceholder, pageState }: AppState): IProps => {
   return {
+    pageState: pageState,
     cur: currentWork,
     describeProject: projectPlaceholder,
     alertOnComplete: alertOnComplete,
@@ -55,10 +68,10 @@ const mapDispatchToProps = (dispatch: any) => {
   }
 }
 
-const workSessionStart = ({ updateAlertOnComplete, updateBeforeText, describeProject, submitNewWorkSession }: IProps) =>
-  <form className="pure-form">
+const WorkSessionStart = ({ updateAlertOnComplete, updateBeforeText, describeProject, submitNewWorkSession }: IProps) =>
+  <form className="pure-form" >
     <textarea placeholder={describeProject}
-      onChange={fromNullable(updateBeforeText).map(a => a())}
+      onChange={(e) => fromNullable(updateBeforeText).map(a => a(e))}
       style={{ width: '100%', resize: 'vertical' }}
     />
     <div className="mik-flush-right mik-pad-top-0 mik-fs-0">
@@ -70,12 +83,10 @@ const workSessionStart = ({ updateAlertOnComplete, updateBeforeText, describePro
       <label className="mik-fs-0" htmlFor="notify" style={{ cursor: 'pointer' }}>
         <input id="notify" type="checkbox" onChange={updateAlertOnComplete} /> Notify when complete? </label>
     </div>
-  </form >
+  </form>
 
-
-const workSessionInProgressWidget = ({ describeProject, cur, cancelWorkSession }: IProps) => {
+const WorkSessionInProgressWidget = ({ describeProject, cur, cancelWorkSession }: IProps) => {
   let { amount, dateStart } = cur
-
   let amountInMS = (amount * 1000 * 60)
   let ms = amountInMS - millisecondsTillNow(dateStart)
   let amountInS = (amount * 60)
@@ -106,7 +117,6 @@ const workSessionInProgressWidget = ({ describeProject, cur, cancelWorkSession }
               Thank you
             </p>
           </div>
-
           <div className="mik-flush-right mik-fs-0">
             <button className="pure-button mik-red-back-angry" onClick={cancelWorkSession}>Cancel</button>
           </div>
@@ -116,7 +126,7 @@ const workSessionInProgressWidget = ({ describeProject, cur, cancelWorkSession }
   );
 }
 
-const workSessionCompleteWidget = ({ describeProject, cur: { afterText, amount }, updateAfterText, cancelWorkSession, finalizeWorkSession }: IProps) =>
+const WorkSessionCompleteWidget = ({ describeProject, cur: { afterText, amount }, updateAfterText, cancelWorkSession, finalizeWorkSession }: IProps) =>
   <div className="mik-pad-0 mik-margin-1">
     <form className="pure-form">
       <textarea disabled={true}
@@ -137,7 +147,7 @@ const workSessionCompleteWidget = ({ describeProject, cur: { afterText, amount }
 
         <div className="mik-grey mik-fs-0 mik-flush-right mik-margin-0 mik-cut-right">
           Earlier tags will be overwritten by postcriptum
-          </div>
+</div>
 
         <div className="mik-flush-right mik-fs-0">
           <button className="pure-button mik-red-back-angry mik-margin-right-0" onClick={cancelWorkSession}>Cancel session</button>
@@ -146,3 +156,21 @@ const workSessionCompleteWidget = ({ describeProject, cur: { afterText, amount }
       </div>
     </form>
   </div>
+
+
+const rootComponent = (props: IProps) => {
+  switch (props.pageState) {
+    case CurrentWorkFrame.WORK_FRAME_START_WORK: {
+      return WorkSessionStart(props)
+    }
+    case CurrentWorkFrame.WORK_FRAME_WORKING: {
+      return WorkSessionInProgressWidget(props)
+    }
+    case CurrentWorkFrame.WORK_FRAME_SUMMARY: {
+      return WorkSessionCompleteWidget(props)
+    }
+  }
+  return WorkSessionStart(props)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(rootComponent)

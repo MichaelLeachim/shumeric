@@ -20,10 +20,11 @@ ecosystem.
   * [SheetJS](https://github.com/SheetJS/js-xlsx)
   
   
+  
 ## Status (Progress) log
 ### [2018-10-26] [20:40] Immutable.js with Typescript Records and sanity
 
-Here is a somewhat of a half backed solution of this long standing problem:
+Here is a somewhat of a half backed solution of this problem:
 
 1. Use latest release candidate of Immutable.js:     `"immutable": "^4.0.0-rc.10",`
 

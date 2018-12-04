@@ -25,8 +25,7 @@ function actionCreator<P>(type: string): ActionCreator<P> {
 }
 
 export function isType<P>(action: Action<any>,
-                          actionCreator: ActionCreator<P>): action is Action<P> {
-    
+  actionCreator: ActionCreator<P>): action is Action<P> {
   return action.type === actionCreator.type;
 }
 
@@ -39,8 +38,5 @@ export const actionFinalizeWorkSession = actionCreator<{ now: Date }>("FINALIZE_
 
 export const actionModalWorkingSession = actionCreator<{ ws: WorkingSession }>("WORKING_SESSION_MODAL")
 export const actionModalClose = actionCreator<{}>("MODAL_CLOSE")
-
-
-
 export const actionTick = actionCreator<{}>("TICK")
 

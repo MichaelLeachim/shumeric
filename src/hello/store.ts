@@ -75,7 +75,6 @@ export type StatsCollector = RecordOf<{
   tagOfDay: Map<string, StatRecord>
 }>
 
-
 const store = createStore<AppState, Action<any>, null, null>(Reducer, {
   modalState: { isModalOpen: false },
   currentWork: {},
@@ -83,5 +82,4 @@ const store = createStore<AppState, Action<any>, null, null>(Reducer, {
 });
 
 export default store;
-
 
