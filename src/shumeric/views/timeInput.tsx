@@ -38,10 +38,10 @@ interface IProps {
 
 const mapStateToProps = ({ currentWork, alertOnComplete, projectPlaceholder, pageState }: AppState): IProps => {
   return {
-    pageState,
+    alertOnComplete,
     cur: currentWork,
     describeProject: projectPlaceholder,
-    alertOnComplete,
+    pageState,
   }
 }
 

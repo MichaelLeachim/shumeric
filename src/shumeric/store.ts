@@ -80,15 +80,15 @@ export type StatsCollector = RecordOf<{
 
 const defaultAppState = Record({
   alertOnComplete: false,
-  projectPlaceholder: "Here be project, it is a placeholder",
   modalState: (Record({ isModalOpen: false, modalType: ModalType.TIMESHEET_MODAL, modalContentLabel: "default" })()) as ModalState,
   pageState: CurrentWorkFrame.WORK_FRAME_START_WORK,
-  workingSessions: List<WorkingSession>([]),
+  projectPlaceholder: "Here be project, it is a placeholder",
   statsCollector: (Record({
-    monthOfYear: Map<number, StatRecord>(),
     dayOfYear: Map<number, StatRecord>(),
+    monthOfYear: Map<number, StatRecord>(),
     tagOfDay: Map<string, StatRecord>(),
   })()) as StatsCollector,
+  workingSessions: List<WorkingSession>([]),
 })()
 
 export default createStore<AppState, IAction<any>, null, null>(Reducer, defaultAppState);

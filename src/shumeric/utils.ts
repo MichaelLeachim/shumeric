@@ -8,7 +8,7 @@
 import { List, Record } from 'immutable';
 import { SimpleTime } from './store';
 
-interface TimeDuration {
+interface ITimeDuration {
   day: number; hour: number; minute: number; second: number; millisecond: number
 }
 
@@ -39,13 +39,13 @@ export const newSimpleTime = (date: Date): SimpleTime =>
 export const dayOfYear = (date: Date) =>
   Math.floor((+date - +(new Date(date.getFullYear(), 0, 0))) / 1000 / 60 / 60 / 24)
 
-export const formatDuration = (millis: number): TimeDuration => {
+export const formatDuration = (millis: number): ITimeDuration => {
   const ms = Math.abs(millis)
   return {
     day: Math.floor(ms / 86400000),
-    hour: Math.floor(ms / 3600000) % 24,
+      hour: Math.floor(ms / 3600000) % 24,
+      millisecond: Math.floor(ms) % 1000,
     minute: Math.floor(ms / 60000) % 60,
     second: Math.floor(ms / 1000) % 60,
-    millisecond: Math.floor(ms) % 1000
   }
 }

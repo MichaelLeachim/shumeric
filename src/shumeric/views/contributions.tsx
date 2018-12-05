@@ -29,8 +29,8 @@ const mapStateToProps = ({ workingSessions, statsCollector: { dayOfYear } }: App
   const now = new Date()
   return {
     contribCount,
-    startDate: fromNullable(contribCount.first()).map(item => new Date(item.data)).getOrElse(now),
     endDate: fromNullable(contribCount.last()).map(item => new Date(item.data)).getOrElse(now),
+    startDate: fromNullable(contribCount.first()).map(item => new Date(item.data)).getOrElse(now),
   }
 }
 

@@ -30,24 +30,24 @@ const mapStateToProps = ({ statsCollector: { totalYear, monthOfYear, dayOfYear: 
   const now = new Date()
   return {
     now,
-    currentYear: totalYear,
     currentMonth: monthOfYear.get(now.getMonth()),
     currentDay: dayOfYearCollection.get(dayOfYear(now)),
+    currentYear: totalYear,
     tags: tagOfDay.map((stats, tagname) => ({ tagName: tagname, data: stats })).toList()
   }
 }
 
-interface displaySessionEntryProps {
+interface IDisplaySesionEntryProps {
   item?: StatRecord,
   itemName: string
 }
 
-const DisplaySessionEntry = ({ item, itemName }: displaySessionEntryProps) => {
+const DisplaySessionEntry = ({ item, itemName }: IDisplaySesionEntryProps) => {
   return (<span>{
     item &&
     <li className="mik-flush-right">
       <div className="mik-grey">
-        <a className="no-decor mik-cut-top" href="#" onClick={() => console.log("[TODO] implement downloading as spreadsheet")}> {itemName}</a>
+        <a className="no-decor mik-cut-top" href="#" onClick={() => alert("[TODO] implement downloading as spreadsheet")}> {itemName}</a>
       </div>
       <div className="mik-fs-0">
         <b> {item.countSessions} </b>sessions /<b> {item.countTime} </b>hours</div>

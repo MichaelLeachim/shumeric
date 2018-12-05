@@ -36,7 +36,7 @@ const mapStateToProps = ({ workingSessions, }: AppState): IProps => {
 }
 
 const mapDispatchToProps = (dispatch: any) => {
-  closeModal: () => dispatch(actionModalClose({}))
+  return { closeModal: () => dispatch(actionModalClose({})) }
 }
 
 const timeSheetRowWidget = (props: WorkingSession) => {
