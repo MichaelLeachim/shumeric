@@ -21,13 +21,17 @@ import TimeInput from './shumeric/views/timeInput';
 import store from "./shumeric/store";
 
 ReactDOM.render(
-  <Provider store={store}>
-    <Contrib />
-    <Modals />
-    <Sheet />
-    <Stats />
-    <TimeInput />
-  </Provider>,
+  <div className="mik-container">
+    <div className="pure-u-1-4">
+      <Provider store={store}><Stats /></Provider>
+    </div>
+    <div className="pure-u-3-4">
+      <Provider store={store}><TimeInput /></Provider>
+      <Provider store={store}><Sheet /></Provider>
+      <Provider store={store}><Contrib /></Provider>
+    </div>
+    <Provider store={store}><Modals /></Provider>
+  </div>,
   document.getElementById('root') as HTMLElement
 );
 

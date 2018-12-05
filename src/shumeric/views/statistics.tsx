@@ -43,11 +43,13 @@ interface IDisplaySesionEntryProps {
 }
 
 const DisplaySessionEntry = ({ item, itemName }: IDisplaySesionEntryProps) => {
+  const todoImplementDownloadingAsSpreadsheet = () => alert("[TODO] implement downloading as spreadsheet")
+
   return (<span>{
     item &&
     <li className="mik-flush-right">
       <div className="mik-grey">
-        <a className="no-decor mik-cut-top" href="#" onClick={() => alert("[TODO] implement downloading as spreadsheet")}> {itemName}</a>
+        <a className="no-decor mik-cut-top" href="#" onClick={todoImplementDownloadingAsSpreadsheet}> {itemName}</a>
       </div>
       <div className="mik-fs-0">
         <b> {item.countSessions} </b>sessions /<b> {item.countTime} </b>hours</div>
@@ -62,7 +64,7 @@ const statsPanel = ({ now, currentYear, currentMonth, currentDay, tags }: IProps
       <DisplaySessionEntry item={currentMonth} itemName="This month" />
       <DisplaySessionEntry item={currentYear} itemName="This year" />
       <ul className="mik-cut-left" style={{ listStyle: 'none' }}>
-        {tags && tags.map((item) => <DisplaySessionEntry item={item.data} itemName={item.tagName} />)}
+        {tags && tags.map((item) => <DisplaySessionEntry key={item.tagName} item={item.data} itemName={item.tagName} />)}
       </ul>
     </ul>
   </div >

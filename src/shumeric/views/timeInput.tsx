@@ -15,7 +15,7 @@ import {
 import { AppState, CurrentWorkFrame, WorkingSession } from '../store';
 
 
-import { fromNullable } from 'fp-ts/lib/Option';
+
 import CircularProgressbar from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { connect } from 'react-redux'
@@ -68,22 +68,30 @@ const mapDispatchToProps = (dispatch: any) => {
   }
 }
 
-const WorkSessionStart = ({ updateAlertOnComplete, updateBeforeText, describeProject, submitNewWorkSession }: IProps) =>
-  <form className="pure-form" >
+const WorkSessionStart = ({ updateAlertOnComplete, updateBeforeText, describeProject, submitNewWorkSession }: IProps) => {
+  if (!updateBeforeText || !submitNewWorkSession || !updateAlertOnComplete) {
+    throw new Error("not all dispatchers are implemented")
+  }
+  const submit10 = () => submitNewWorkSession(10)
+  const submit25 = () => submitNewWorkSession(25)
+  const submit60 = () => submitNewWorkSession(60)
+
+  return <form className="pure-form" >
     <textarea placeholder={describeProject}
-      onChange={(e) => fromNullable(updateBeforeText).map(a => a(e))}
+      onChange={updateBeforeText}
       style={{ width: '100%', resize: 'vertical' }}
     />
-    <div className="mik-flush-right mik-pad-top-0 mik-fs-0">
-      <button className="pure-button mik-green-s-1-back-angry mik-margin-right-0" onClick={() => fromNullable(submitNewWorkSession).map(a => a(10))} >10 min</button>
-      <button className="pure-button mik-green-s-2-back-angry mik-margin-right-0" onClick={() => fromNullable(submitNewWorkSession).map(a => a(25))}>25 min</button>
-      <button className="pure-button mik-green-s-4-back-angry" onClick={() => fromNullable(submitNewWorkSession).map(a => a(60))}>1  hour</button>
-    </div>
+    < div className="mik-flush-right mik-pad-top-0 mik-fs-0" >
+      <button className="pure-button mik-green-s-1-back-angry mik-margin-right-0" onClick={submit10} >10 min</button>
+      <button className="pure-button mik-green-s-2-back-angry mik-margin-right-0" onClick={submit25}>25 min</button>
+      <button className="pure-button mik-green-s-4-back-angry" onClick={submit60}>1  hour</button>
+    </div >
     <div className="mik-flush-right mik-pad-top-0">
       <label className="mik-fs-0" htmlFor="notify" style={{ cursor: 'pointer' }}>
         <input id="notify" type="checkbox" onChange={updateAlertOnComplete} /> Notify when complete? </label>
     </div>
-  </form>
+  </form >
+}
 
 const WorkSessionInProgressWidget = ({ describeProject, cur, cancelWorkSession }: IProps) => {
   const { amount, dateStart } = cur
@@ -106,8 +114,7 @@ const WorkSessionInProgressWidget = ({ describeProject, cur, cancelWorkSession }
 
           <CircularProgressbar
             percentage={percentage}
-            text={`${minute}:${second}`}>
-          </CircularProgressbar>
+            text={`${minute}:${second}`} />
 
           <div className="mik-grey mik-fs-0 mik-flush-right">
             <b>Why I can't pause my work?</b>

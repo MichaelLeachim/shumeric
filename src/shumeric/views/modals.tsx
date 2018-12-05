@@ -70,7 +70,7 @@ const ModalRenderer = (props: IProps) => {
     contentLabel={modalContentLabel}
     onRequestClose={closeModal} >
     <button onClick={closeModal}>Close Modal</button>
-    <ModalDispatcher {...props}></ModalDispatcher>
+    <ModalDispatcher {...props} />
   </ReactModal >)
 }
 

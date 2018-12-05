@@ -45,16 +45,16 @@ const timeSheetRowWidget = (props: WorkingSession) => {
   const startedAtStr = simpleTimeAsString(startedAt)
   const endedAtStr = simpleTimeAsString(endedAt)
   const beforeTextTruncated = truncateString(beforeText, 20)
+  const showModalWithWorkingSession = () => actionModalWorkingSession({ ws: props })
   return (
-    <li>
+    <li key={startedAtStr}>
       <a data-tip={`${beforeText}</br>${afterText}`} data-multiline={true}>
         <span className="mik-green-s-3"> ( {{ amount }} ) </span>
       </a>
-      {startedAtStr} — {{ endedAtStr }} ·
+      {startedAtStr} — {endedAtStr} ·
       <span className="mik-grey" data-tip={`${beforeText}</br>${afterText}`} data-multiline={true}>
         {beforeTextTruncated}
-        <button className="pure-button" onClick={() => actionModalWorkingSession({ ws: props })}>
-        </button>
+        <button className="pure-button" onClick={showModalWithWorkingSession} />
       </span>
     </li>)
 }
@@ -64,7 +64,7 @@ const timeSheetWidget = (props: IProps) =>
     <ReactTooltip />
     <ul className="mik-cut-left" style={{ listStyle: 'none' }}>{
       props.records.map(item =>
-        <li>
+        <li key={item.dateItem}>
           <div className="mik-grey">{item.dateItem}</div>
           <ul className="mik-cut-left" style={{ listStyle: 'none' }}>
             {item.children.map(timeSheetRowWidget)}
