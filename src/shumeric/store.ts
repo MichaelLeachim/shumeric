@@ -8,20 +8,22 @@
 
 import { createStore } from 'redux';
 
-import { Action } from "./actions";
+import { IAction } from "./actions";
 import { Reducer } from './reducers';
 
-import { Map, List, RecordOf } from "immutable"
+import { Map, List, RecordOf, Record } from "immutable"
 
 export enum CurrentWorkFrame {
   WORK_FRAME_START_WORK = 1,
   WORK_FRAME_WORKING,
   WORK_FRAME_SUMMARY,
 }
+
 export type DayRecord = RecordOf<{
   date: string
   children: List<WorkingSession>
 }>
+
 
 export enum ModalType {
   TIMESHEET_MODAL = 1,
@@ -75,11 +77,21 @@ export type StatsCollector = RecordOf<{
   tagOfDay: Map<string, StatRecord>
 }>
 
-const store = createStore<AppState, Action<any>, null, null>(Reducer, {
-  modalState: { isModalOpen: false },
-  currentWork: {},
-  workingSessions: List([]),
-});
 
-export default store;
+const defaultAppState = Record({
+  alertOnComplete: false,
+  projectPlaceholder: "Here be project, it is a placeholder",
+  modalState: <ModalState>(Record({ isModalOpen: false, modalType: ModalType.TIMESHEET_MODAL, modalContentLabel: "default" })()),
+  pageState: CurrentWorkFrame.WORK_FRAME_START_WORK,
+  workingSessions: List<WorkingSession>([]),
+  statsCollector: <StatsCollector>(Record({
+    monthOfYear: Map<number, StatRecord>(),
+    dayOfYear: Map<number, StatRecord>(),
+    tagOfDay: Map<string, StatRecord>(),
+  })()),
+})()
+
+export default createStore<AppState, IAction<any>, null, null>(Reducer, defaultAppState);
+
+
 

@@ -14,12 +14,12 @@ import {
   actionUpdateAfterText, actionFinalizeWorkSession, actionBeginWorkSession
 } from '../actions';
 
+
 import { connect } from 'react-redux'
 import CircularProgressbar from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { millisecondsTillNow, formatDuration } from '../utils';
 import { fromNullable } from 'fp-ts/lib/Option';
-import { identity } from 'fp-ts/lib/function';
 
 interface IProps {
   // props

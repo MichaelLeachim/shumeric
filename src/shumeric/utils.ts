@@ -39,8 +39,6 @@ export const newSimpleTime = (date: Date): SimpleTime =>
 export const dayOfYear = (date: Date) =>
   Math.floor((+date - +(new Date(date.getFullYear(), 0, 0))) / 1000 / 60 / 60 / 24)
 
-
-
 export const formatDuration = (millis: number): TimeDuration => {
   let ms = Math.abs(millis)
   return {
@@ -51,4 +49,3 @@ export const formatDuration = (millis: number): TimeDuration => {
     millisecond: Math.floor(ms) % 1000
   }
 }
-

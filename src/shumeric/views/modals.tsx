@@ -5,14 +5,15 @@
  * @ All rights reserved.                                                               @
  * @@@@@@ At 2018-10-25 21:06 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@ */
 
-import { ModalState, AppState, ModalType, WorkingSession } from "../store";
+import { ModalState, AppState, ModalType } from "../store";
 import { actionModalClose } from '../actions';
 
-import { ReactModal } from 'react-modal';
+import * as ReactModal from 'react-modal';
 
 import * as React from 'react';
 import { simpleTimeAsString } from '../utils';
-import { connect } from 'net';
+
+import { connect } from 'react-redux'
 
 interface IProps {
   ms: ModalState
@@ -20,12 +21,13 @@ interface IProps {
 }
 
 const mapStateToProps = ({ modalState }: AppState): IProps => {
-  return { ms: modalState, }
+  return { ms: modalState }
 }
 
 const mapDispatchToProps = (dispatch: any) => {
   return { closeModal: () => dispatch(actionModalClose({})) }
 }
+
 
 const TimeSheetModal = ({ closeModal, ms: { timeSheetModal: { amount, startedAt, endedAt, beforeText, afterText } } }: IProps) =>
   <div className="mik-pad-0 mik-margin-1">
@@ -34,9 +36,9 @@ const TimeSheetModal = ({ closeModal, ms: { timeSheetModal: { amount, startedAt,
         style={{ width: '100%', resize: 'vertical' }}
         value={beforeText} />
       <div className="mik-flush-right mik-pad-top-0 mik-fs-0">
-        "You've worked:"" <b> {`1 session for ${amount} minutes`}
+        "You've worked:" <b> {`1 session for ${amount} minutes`}
         </b>
-        <b>{simpleTimeAsString(startedAt)} — {{ simpleTimeAsString(endedAt) }}</b>
+        <b>{simpleTimeAsString(startedAt)} — {simpleTimeAsString(endedAt)}</b>
       </div>
       <div className="mik-tiny-container mik-margin-1">
         <ul className="mik-fs-0">
@@ -53,9 +55,9 @@ const TimeSheetModal = ({ closeModal, ms: { timeSheetModal: { amount, startedAt,
     </form>
   </div>
 
-const ModalDispatcher = ({ closeModal, ms: { timeSheetModal, modalType } }: IProps) => {
-  if (modalType === ModalType.TIMESHEET_MODAL && closeModal && timeSheetModal) {
-    return timeSheetModal(closeModal, timeSheetModal)
+const ModalDispatcher = (props: IProps) => {
+  if (props.ms.modalType === ModalType.TIMESHEET_MODAL && props.closeModal && props.ms.timeSheetModal) {
+    return TimeSheetModal(props)
   }
   return null
 }
@@ -63,7 +65,6 @@ const ModalDispatcher = ({ closeModal, ms: { timeSheetModal, modalType } }: IPro
 const ModalRenderer = (props: IProps) => {
   let { ms, closeModal } = props
   let { isModalOpen, modalContentLabel } = ms
-
   return (<ReactModal
     isOpen={isModalOpen}
     contentLabel={modalContentLabel}
@@ -72,5 +73,6 @@ const ModalRenderer = (props: IProps) => {
     <ModalDispatcher {...props}></ModalDispatcher>
   </ReactModal >)
 }
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModalRenderer)

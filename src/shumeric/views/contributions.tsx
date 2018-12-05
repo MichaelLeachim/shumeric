@@ -46,4 +46,3 @@ const contributionsWidget = ({ contribCount, startDate, endDate }: IProps) =>
   </div>
 
 export default connect(mapStateToProps)(contributionsWidget)
-

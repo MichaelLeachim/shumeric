@@ -12,15 +12,23 @@ import { Provider } from "react-redux"
 
 import registerServiceWorker from './vendor/registerServiceWorker';
 
-import HelloViews from './hello/views';
-import store from "./store";
+import Contrib from './shumeric/views/contributions';
+import Modals from './shumeric/views/modals';
+import Sheet from './shumeric/views/sheet';
+import Stats from './shumeric/views/statistics';
+import TimeInput from './shumeric/views/timeInput';
+
+import store from "./shumeric/store";
 
 ReactDOM.render(
   <Provider store={store}>
-    <HelloViews />
+    <Contrib />
+    <Modals />
+    <Sheet />
+    <Stats />
+    <TimeInput />
   </Provider>,
   document.getElementById('root') as HTMLElement
-
 );
 
 registerServiceWorker();

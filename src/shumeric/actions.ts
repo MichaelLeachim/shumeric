@@ -7,26 +7,26 @@
 
 import { WorkingSession } from './store';
 
-export type Action<TPayload> = {
+export interface IAction<TPayload> {
   type: string;
   payload: TPayload;
 }
 
-interface ActionCreator<P> {
+interface IActionCreator<P> {
   type: string;
-  (payload: P): Action<P>;
+  (payload: P): IAction<P>;
 }
 
-function actionCreator<P>(type: string): ActionCreator<P> {
+function actionCreator<P>(type: string): IActionCreator<P> {
   return Object.assign(
     (payload: P) => ({ type, payload }),
     { type }
   );
 }
 
-export function isType<P>(action: Action<any>,
-  actionCreator: ActionCreator<P>): action is Action<P> {
-  return action.type === actionCreator.type;
+export function isType<P>(action: IAction<any>,
+  ac: IActionCreator<P>): action is IAction<P> {
+  return action.type === ac.type;
 }
 
 export const actionCancelWorkSession = actionCreator<{}>("CANCEL_WORK_SESSION")

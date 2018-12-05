@@ -6,11 +6,18 @@
  * @@@@@@ At 2018-10-24 18:17 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@ */
 
 import { AppState } from './store';
-import { Action, actionUpdateBeforeText, isType, actionBeginWorkSession, actionAlertOnComplete, actionCancelWorkSession, actionFinalizeWorkSession, actionModalWorkingSession, actionModalClose, } from './actions';
-import { eventUpdateBeforeText, eventSetAlertOnUpdate, eventBeginWorkingSession, eventCancelWorkSession, eventUpdateAfterText, eventFinalizeWorkSession, eventModalClose, eventModalWorkingSession } from './events';
+import {
+  IAction, actionUpdateBeforeText, isType, actionBeginWorkSession, actionAlertOnComplete,
+  actionCancelWorkSession, actionFinalizeWorkSession, actionModalWorkingSession, actionModalClose,
+} from './actions';
+
+import {
+  eventUpdateBeforeText, eventSetAlertOnUpdate, eventBeginWorkingSession, eventCancelWorkSession,
+  eventUpdateAfterText, eventFinalizeWorkSession, eventModalClose, eventModalWorkingSession
+} from './events';
 
 
-export function Reducer(state: AppState, action: Action<any>): AppState {
+export function Reducer(state: AppState, action: IAction<any>): AppState {
   if (isType(action, actionUpdateBeforeText)) {
     return eventUpdateBeforeText(state, action.payload.inputText)
   }
