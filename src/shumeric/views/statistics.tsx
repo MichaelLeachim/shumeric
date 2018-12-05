@@ -29,10 +29,10 @@ interface IProps {
 const mapStateToProps = ({ statsCollector: { totalYear, monthOfYear, dayOfYear: dayOfYearCollection, tagOfDay } }: AppState): IProps => {
   const now = new Date()
   return {
-    now,
-    currentMonth: monthOfYear.get(now.getMonth()),
     currentDay: dayOfYearCollection.get(dayOfYear(now)),
+    currentMonth: monthOfYear.get(now.getMonth()),
     currentYear: totalYear,
+    now,
     tags: tagOfDay.map((stats, tagname) => ({ tagName: tagname, data: stats })).toList()
   }
 }
