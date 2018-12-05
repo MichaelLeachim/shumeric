@@ -5,17 +5,17 @@
 // @ All rights reserved.                                                               @
 // @@@@@@ At 2018-10-24 23:08 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@
 
-import { AppState, CurrentWorkFrame, WorkingSession, StatRecord } from "./store";
-import { extractTags, newSimpleTime, dayOfYear, dateString } from './utils';
-import { List } from 'immutable';
 import { increment } from 'fp-ts/lib/function';
+import { List } from 'immutable';
+import { AppState, CurrentWorkFrame, StatRecord, WorkingSession } from "./store";
+import { dateString, dayOfYear, extractTags, newSimpleTime } from './utils';
 
 export const updateStatRecord = (state: AppState, record: WorkingSession, now: Date): AppState => {
-  let tags = extractTags(record.afterText).toSet()
+  const tags = extractTags(record.afterText).toSet()
   // "thisMonth"
   // "thisDay"
   // "thisYear"
-  let updatefn = (item: StatRecord) => item
+  const updatefn = (item: StatRecord) => item
     .set("date", dateString(now))
     .update("countSessions", increment)
     .update("countTime", a => a + record.amount)

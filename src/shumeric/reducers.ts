@@ -5,15 +5,15 @@
  * @ All rights reserved.                                                               @
  * @@@@@@ At 2018-10-24 18:17 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@ */
 
-import { AppState } from './store';
 import {
-  IAction, actionUpdateBeforeText, isType, actionBeginWorkSession, actionAlertOnComplete,
-  actionCancelWorkSession, actionFinalizeWorkSession, actionModalWorkingSession, actionModalClose,
+  actionAlertOnComplete, actionBeginWorkSession, actionCancelWorkSession, actionFinalizeWorkSession, actionModalClose,
+  actionModalWorkingSession, actionUpdateBeforeText, IAction, isType,
 } from './actions';
+import { AppState } from './store';
 
 import {
-  eventUpdateBeforeText, eventSetAlertOnUpdate, eventBeginWorkingSession, eventCancelWorkSession,
-  eventUpdateAfterText, eventFinalizeWorkSession, eventModalClose, eventModalWorkingSession
+  eventBeginWorkingSession, eventCancelWorkSession, eventFinalizeWorkSession, eventModalClose,
+  eventModalWorkingSession, eventSetAlertOnUpdate, eventUpdateAfterText, eventUpdateBeforeText
 } from './events';
 
 

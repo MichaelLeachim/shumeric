@@ -10,8 +10,8 @@
 // It will show a condensed view on contributions for the last year.
 
 import * as React from 'react';
-import { AppState, StatRecord } from "../store";
 import { connect } from 'react-redux'
+import { AppState, StatRecord } from "../store";
 
 import { dayOfYear } from '../utils'
 
@@ -27,13 +27,13 @@ interface IProps {
 }
 
 const mapStateToProps = ({ statsCollector: { totalYear, monthOfYear, dayOfYear: dayOfYearCollection, tagOfDay } }: AppState): IProps => {
-  let now = new Date()
+  const now = new Date()
   return {
-    now: now,
+    now,
     currentYear: totalYear,
     currentMonth: monthOfYear.get(now.getMonth()),
     currentDay: dayOfYearCollection.get(dayOfYear(now)),
-    tags: tagOfDay.map((stats, tagname) => { return { tagName: tagname, data: stats } }).toList()
+    tags: tagOfDay.map((stats, tagname) => ({ tagName: tagname, data: stats })).toList()
   }
 }
 

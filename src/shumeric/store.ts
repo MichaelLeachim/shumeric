@@ -11,7 +11,7 @@ import { createStore } from 'redux';
 import { IAction } from "./actions";
 import { Reducer } from './reducers';
 
-import { Map, List, RecordOf, Record } from "immutable"
+import { List, Map, Record, RecordOf } from "immutable"
 
 export enum CurrentWorkFrame {
   WORK_FRAME_START_WORK = 1,
@@ -81,14 +81,14 @@ export type StatsCollector = RecordOf<{
 const defaultAppState = Record({
   alertOnComplete: false,
   projectPlaceholder: "Here be project, it is a placeholder",
-  modalState: <ModalState>(Record({ isModalOpen: false, modalType: ModalType.TIMESHEET_MODAL, modalContentLabel: "default" })()),
+  modalState: (Record({ isModalOpen: false, modalType: ModalType.TIMESHEET_MODAL, modalContentLabel: "default" })()) as ModalState,
   pageState: CurrentWorkFrame.WORK_FRAME_START_WORK,
   workingSessions: List<WorkingSession>([]),
-  statsCollector: <StatsCollector>(Record({
+  statsCollector: (Record({
     monthOfYear: Map<number, StatRecord>(),
     dayOfYear: Map<number, StatRecord>(),
     tagOfDay: Map<string, StatRecord>(),
-  })()),
+  })()) as StatsCollector,
 })()
 
 export default createStore<AppState, IAction<any>, null, null>(Reducer, defaultAppState);

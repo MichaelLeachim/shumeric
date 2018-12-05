@@ -8,18 +8,18 @@
 // Widget that implements helps adding and removing time.
 
 import * as React from 'react';
-import { AppState, WorkingSession, CurrentWorkFrame } from '../store';
 import {
-  actionUpdateBeforeText, actionAlertOnComplete, actionCancelWorkSession,
-  actionUpdateAfterText, actionFinalizeWorkSession, actionBeginWorkSession
+  actionAlertOnComplete, actionBeginWorkSession, actionCancelWorkSession,
+  actionFinalizeWorkSession, actionUpdateAfterText, actionUpdateBeforeText
 } from '../actions';
+import { AppState, CurrentWorkFrame, WorkingSession } from '../store';
 
 
-import { connect } from 'react-redux'
+import { fromNullable } from 'fp-ts/lib/Option';
 import CircularProgressbar from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import { millisecondsTillNow, formatDuration } from '../utils';
-import { fromNullable } from 'fp-ts/lib/Option';
+import { connect } from 'react-redux'
+import { formatDuration, millisecondsTillNow } from '../utils';
 
 interface IProps {
   // props
@@ -38,31 +38,31 @@ interface IProps {
 
 const mapStateToProps = ({ currentWork, alertOnComplete, projectPlaceholder, pageState }: AppState): IProps => {
   return {
-    pageState: pageState,
+    pageState,
     cur: currentWork,
     describeProject: projectPlaceholder,
-    alertOnComplete: alertOnComplete,
+    alertOnComplete,
   }
 }
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    updateBeforeText: function(e: React.ChangeEvent<HTMLInputElement>): void {
+    updateBeforeText(e: React.ChangeEvent<HTMLInputElement>): void {
       dispatch(actionUpdateBeforeText({ inputText: e.target.textContent || "" }))
     },
-    updateAfterText: function(e: React.ChangeEvent<HTMLInputElement>): void {
+    updateAfterText(e: React.ChangeEvent<HTMLInputElement>): void {
       dispatch(actionUpdateAfterText({ inputText: e.target.textContent || "" }))
     },
-    cancelWorkSession: function(): void {
+    cancelWorkSession(): void {
       dispatch(actionCancelWorkSession({}))
     },
-    submitNewWorkSession: function(amount: number): void {
-      dispatch(actionBeginWorkSession({ amount: amount, now: new Date() }))
+    submitNewWorkSession(amount: number): void {
+      dispatch(actionBeginWorkSession({ amount, now: new Date() }))
     },
-    finalizeWorkSession: function(): void {
+    finalizeWorkSession(): void {
       dispatch(actionFinalizeWorkSession({ now: new Date() }))
     },
-    updateAlertOnComplete: function(e: React.ChangeEvent<HTMLInputElement>): void {
+    updateAlertOnComplete(e: React.ChangeEvent<HTMLInputElement>): void {
       dispatch(actionAlertOnComplete({ shouldAlert: e.target.checked }))
     }
   }
@@ -86,12 +86,12 @@ const WorkSessionStart = ({ updateAlertOnComplete, updateBeforeText, describePro
   </form>
 
 const WorkSessionInProgressWidget = ({ describeProject, cur, cancelWorkSession }: IProps) => {
-  let { amount, dateStart } = cur
-  let amountInMS = (amount * 1000 * 60)
-  let ms = amountInMS - millisecondsTillNow(dateStart)
-  let amountInS = (amount * 60)
-  let percentage = (100 / amountInS) * (ms / 1000)
-  let { minute, second } = formatDuration(ms)
+  const { amount, dateStart } = cur
+  const amountInMS = (amount * 1000 * 60)
+  const ms = amountInMS - millisecondsTillNow(dateStart)
+  const amountInS = (amount * 60)
+  const percentage = (100 / amountInS) * (ms / 1000)
+  const { minute, second } = formatDuration(ms)
   return (
     <div className="mik-pad-0 mik-margin-1">
       <form className="pure-form">

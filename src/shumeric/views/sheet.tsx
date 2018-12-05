@@ -7,14 +7,14 @@
  *  */
 
 import * as React from 'react';
-import { WorkingSession, AppState } from "../store";
-import * as ReactTooltip from 'react-tooltip'
 import { connect } from 'react-redux'
+import * as ReactTooltip from 'react-tooltip'
+import { AppState, WorkingSession } from "../store";
 
-import { simpleTimeAsString, truncateString, dateString } from '../utils';
-import { actionModalWorkingSession, actionModalClose } from '../actions';
 import { List } from 'immutable';
 import 'react-calendar-heatmap/dist/styles.css';
+import { actionModalClose, actionModalWorkingSession } from '../actions';
+import { dateString, simpleTimeAsString, truncateString } from '../utils';
 
 
 interface IProps {
@@ -30,7 +30,7 @@ const mapStateToProps = ({ workingSessions, }: AppState): IProps => {
       .take(100)
       .groupBy(a => dateString(a.dateStart))
       .take(3)
-      .map((listOfItems, dateOfItem) => { return { dateItem: dateOfItem, children: listOfItems.toList() } })
+      .map((listOfItems, dateOfItem) => ({ dateItem: dateOfItem, children: listOfItems.toList() }))
       .toList()
   }
 }
@@ -40,11 +40,11 @@ const mapDispatchToProps = (dispatch: any) => {
 }
 
 const timeSheetRowWidget = (props: WorkingSession) => {
-  let { amount, startedAt, endedAt, beforeText, afterText } = props
+  const { amount, startedAt, endedAt, beforeText, afterText } = props
 
-  let startedAtStr = simpleTimeAsString(startedAt)
-  let endedAtStr = simpleTimeAsString(endedAt)
-  let beforeTextTruncated = truncateString(beforeText, 20)
+  const startedAtStr = simpleTimeAsString(startedAt)
+  const endedAtStr = simpleTimeAsString(endedAt)
+  const beforeTextTruncated = truncateString(beforeText, 20)
   return (
     <li>
       <a data-tip={`${beforeText}</br>${afterText}`} data-multiline={true}>

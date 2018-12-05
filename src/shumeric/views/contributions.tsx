@@ -8,14 +8,14 @@
 /* This is a widget that will show the amount of work happened last year 
    This is a WIP */
 
+import { List } from 'immutable';
 import * as React from 'react';
 import ReactCalendarHeatmap from 'react-calendar-heatmap';
-import { List } from 'immutable';
 
 import { AppState } from "../store";
 
-import { connect } from 'react-redux'
 import { fromNullable } from 'fp-ts/lib/Option'
+import { connect } from 'react-redux'
 
 interface IProps {
   contribCount: List<{ data: string, count: number }>
@@ -24,11 +24,11 @@ interface IProps {
 }
 
 const mapStateToProps = ({ workingSessions, statsCollector: { dayOfYear } }: AppState): IProps => {
-  let contribCount = dayOfYear
-    .map((item, day) => { return { data: item.date, count: item.countSessions } }).toList();
-  let now = new Date()
+  const contribCount = dayOfYear
+    .map((item, day) => ({ data: item.date, count: item.countSessions })).toList();
+  const now = new Date()
   return {
-    contribCount: contribCount,
+    contribCount,
     startDate: fromNullable(contribCount.first()).map(item => new Date(item.data)).getOrElse(now),
     endDate: fromNullable(contribCount.last()).map(item => new Date(item.data)).getOrElse(now),
   }

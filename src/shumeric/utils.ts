@@ -5,10 +5,10 @@
 // @ All rights reserved.                                                               @
 // @@@@@@ At 2018-10-25 18:37 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@
 
+import { List, Record } from 'immutable';
 import { SimpleTime } from './store';
-import { Record, List } from 'immutable';
 
-type TimeDuration = {
+interface TimeDuration {
   day: number; hour: number; minute: number; second: number; millisecond: number
 }
 
@@ -17,7 +17,7 @@ export const millisecondsTillNow = (someDate: Date): number => {
 }
 
 export const extractTags = (input: string): List<string> => {
-  let matches = input.match(/#[^\s]+/g)
+  const matches = input.match(/#[^\s]+/g)
   return matches ? List<string>(matches) : List<string>([])
 }
 
@@ -40,7 +40,7 @@ export const dayOfYear = (date: Date) =>
   Math.floor((+date - +(new Date(date.getFullYear(), 0, 0))) / 1000 / 60 / 60 / 24)
 
 export const formatDuration = (millis: number): TimeDuration => {
-  let ms = Math.abs(millis)
+  const ms = Math.abs(millis)
   return {
     day: Math.floor(ms / 86400000),
     hour: Math.floor(ms / 3600000) % 24,

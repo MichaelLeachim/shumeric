@@ -5,8 +5,8 @@
  * @ All rights reserved.                                                               @
  * @@@@@@ At 2018-10-25 21:06 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@ */
 
-import { ModalState, AppState, ModalType } from "../store";
 import { actionModalClose } from '../actions';
+import { AppState, ModalState, ModalType } from "../store";
 
 import * as ReactModal from 'react-modal';
 
@@ -63,8 +63,8 @@ const ModalDispatcher = (props: IProps) => {
 }
 
 const ModalRenderer = (props: IProps) => {
-  let { ms, closeModal } = props
-  let { isModalOpen, modalContentLabel } = ms
+  const { ms, closeModal } = props
+  const { isModalOpen, modalContentLabel } = ms
   return (<ReactModal
     isOpen={isModalOpen}
     contentLabel={modalContentLabel}
