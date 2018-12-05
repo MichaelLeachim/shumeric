@@ -5,7 +5,7 @@
 // @ All rights reserved.                                                               @
 // @@@@@@ At 2018-12-05 19:54 <thereisnodotcollective@gmail.com> @@@@@@@@@@@@@@@@@@@@@@@@
 
-export rawWorkingSessions = [
+export const rawWorkingSessions = [
   {
     "ended": "2017-01-02 10:38:43",
     "started": "2017-01-02 09:25:54"
